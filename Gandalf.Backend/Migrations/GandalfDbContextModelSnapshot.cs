@@ -46,7 +46,10 @@ namespace Gandalf.Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -69,9 +72,13 @@ namespace Gandalf.Backend.Migrations
 
             modelBuilder.Entity("Gandalf.Backend.Models.Product", b =>
                 {
-                    b.HasOne("Gandalf.Backend.Models.Category", null)
+                    b.HasOne("Gandalf.Backend.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Gandalf.Backend.Models.Category", b =>

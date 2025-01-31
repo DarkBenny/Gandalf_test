@@ -9,7 +9,7 @@ public class ProductService(IDbContextFactory<GandalfDbContext> dbContextFactory
     {
         using var context = dbContextFactory.CreateDbContext();
 
-        return context.Products.ToList();
+        return context.Products.ToList();        
     }
 
     public void CreateProduct(string name)

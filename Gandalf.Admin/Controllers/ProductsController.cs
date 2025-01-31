@@ -56,13 +56,14 @@ namespace Gandalf.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,ImageLink")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Category,Description,ImageLink")] Product product)
         {
             if (ModelState.IsValid)
             {
                 productService.CreateProduct(product.Name);
-                // productService.CreateProduct(product.Description);
-                //productService.CreateProduct(product.ImageLink);
+                //productService.CreateProduct(product.Category);
+                productService.CreateProduct(product.Description);
+                productService.CreateProduct(product.ImageLink);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -89,7 +90,7 @@ namespace Gandalf.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ImageLink")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Description,ImageLink")] Product product)
         {
             if (id != product.Id)
             {
