@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContextFactory<GandalfDbContext>();
 builder.Services.AddTransient<CategoryService>();
+builder.Services.AddTransient<ProductService>();
 
 var app = builder.Build();
 

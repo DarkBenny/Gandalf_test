@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Gandalf.Backend;
 using Gandalf.Backend.Models;
 using Gandalf.Backend.Services;
+using Microsoft.Identity.Client;
 
 namespace Gandalf.Admin.Controllers
 {
@@ -61,6 +62,10 @@ namespace Gandalf.Admin.Controllers
             {
                 categoryService.CreateCategory(category.Name);
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                 IActionResult Temp() { return Content("Not Valid"); }
             }
             return View(category);
         }

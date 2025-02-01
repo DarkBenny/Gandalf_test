@@ -12,11 +12,11 @@ public class ProductService(IDbContextFactory<GandalfDbContext> dbContextFactory
         return context.Products.ToList();        
     }
 
-    public void CreateProduct(string name)
+    public void CreateProduct(Product product)
     {
         using var context = dbContextFactory.CreateDbContext();
 
-        context.Products.Add(new Product { Name = name });
+        context.Products.Add(product);
 
         context.SaveChanges();
     }

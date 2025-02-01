@@ -15,10 +15,12 @@ namespace Gandalf.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly ProductService productService;
+        private readonly CategoryService categoryService;
 
-        public ProductsController(ProductService productService)
+        public ProductsController(ProductService productService, CategoryService categoryService)
         {
             this.productService = productService;
+            this.categoryService=categoryService;
         }
 
         // GET: Products
@@ -48,6 +50,9 @@ namespace Gandalf.Admin.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            var catlist = new List<Category>();
+            catlist = categoryService.GetCategories();
+            ViewBag.Categories = catlist;
             return View();
         }
 
@@ -59,11 +64,8 @@ namespace Gandalf.Admin.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Category,Description,ImageLink")] Product product)
         {
             if (ModelState.IsValid)
-            {
-                productService.CreateProduct(product.Name);
-                //productService.CreateProduct(product.Category);
-                productService.CreateProduct(product.Description);
-                productService.CreateProduct(product.ImageLink);
+            {                
+                productService.CreateProduct(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
