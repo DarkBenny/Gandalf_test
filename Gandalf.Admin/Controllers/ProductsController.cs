@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gandalf.Backend;
+using Gandalf.Admin.Models;
 using Gandalf.Backend.Models;
 using Gandalf.Backend.Services;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 namespace Gandalf.Admin.Controllers
@@ -16,6 +18,8 @@ namespace Gandalf.Admin.Controllers
     {
         private readonly ProductService productService;
         private readonly CategoryService categoryService;
+
+        //private int productId = 0;
 
         public ProductsController(ProductService productService, CategoryService categoryService)
         {
@@ -50,9 +54,9 @@ namespace Gandalf.Admin.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            var catlist = new List<Category>();
-            catlist = categoryService.GetCategories();
-            ViewBag.Categories = catlist;
+            
+            ViewBag.Categories = categoryService.GetCategories();
+            
             return View();
         }
 
@@ -61,11 +65,14 @@ namespace Gandalf.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Category,Description,ImageLink")] Product product)
-        {
+        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId,Description,ImageLink")] Product product)
+        {     
+            
+            //product.Category = category;
             if (ModelState.IsValid)
-            {                
+            {
                 productService.CreateProduct(product);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -74,6 +81,8 @@ namespace Gandalf.Admin.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Categories = categoryService.GetCategories();
+
             if (id == null)
             {
                 return NotFound();
@@ -92,8 +101,9 @@ namespace Gandalf.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Description,ImageLink")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CategoryId,Description,ImageLink")] Product product)
         {
+
             if (id != product.Id)
             {
                 return NotFound();
@@ -102,7 +112,7 @@ namespace Gandalf.Admin.Controllers
             if (ModelState.IsValid)
             {
                 productService.Update(product);
-                
+
                 return RedirectToAction(nameof(Index));
             }
             return View(product);

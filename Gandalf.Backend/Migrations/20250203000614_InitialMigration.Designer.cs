@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gandalf.Backend.Migrations
 {
     [DbContext(typeof(GandalfDbContext))]
-    [Migration("20250131235933_CollectionNullable")]
-    partial class CollectionNullable
+    [Migration("20250203000614_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,9 +49,6 @@ namespace Gandalf.Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -75,13 +72,11 @@ namespace Gandalf.Backend.Migrations
 
             modelBuilder.Entity("Gandalf.Backend.Models.Product", b =>
                 {
-                    b.HasOne("Gandalf.Backend.Models.Category", "Category")
+                    b.HasOne("Gandalf.Backend.Models.Category", null)
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Gandalf.Backend.Models.Category", b =>

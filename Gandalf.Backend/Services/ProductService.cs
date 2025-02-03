@@ -16,7 +16,7 @@ public class ProductService(IDbContextFactory<GandalfDbContext> dbContextFactory
     {
         using var context = dbContextFactory.CreateDbContext();
 
-        context.Products.Add(product);
+        context.Products.Add(new Product { Name = product.Name, Description = product.Description, CategoryId = product.CategoryId , ImageLink = product.ImageLink});
 
         context.SaveChanges();
     }

@@ -1,10 +1,10 @@
-﻿using Gandalf.Backend.Models;
+﻿
 
-namespace Gandalf.Backend.Models
+namespace Gandalf.Admin.Models
 {
-    public class Product
+    public class ProductViewModel
     {
-        public int? Id { get; set; }
+
         public string Name { get; set; }
         public int CategoryId { get; set; }
         //public Category Category { get; set; }
